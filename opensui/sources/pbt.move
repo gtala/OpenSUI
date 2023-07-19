@@ -150,11 +150,32 @@ module opensui::pbt {
 
     // Build the attributes_keys vector.
     let attributes_keys = vector::empty<String>();
-    vector::push_back(&mut attributes_keys,  utf8(b"Silver Weight (Grms)"));
-
-        // Build the attributes_keys vector.
+            // Build the attributes_keys vector.
     let attributes_values = vector::empty<String>();
-    vector::push_back(&mut attributes_values, utf8(b"Silver Weight (Grms)"));
+
+    vector::push_back(&mut attributes_keys,  utf8(b"Brass Weight (Grms)"));
+    vector::push_back(&mut attributes_values, utf8(b"300"));
+
+    vector::push_back(&mut attributes_keys,  utf8(b"Precious Stone Weight (Grms)"));
+    vector::push_back(&mut attributes_values, utf8(b"9"));
+
+    vector::push_back(&mut attributes_keys,  utf8(b"Copper Weight (Grms)"));
+    vector::push_back(&mut attributes_values, utf8(b"0.5"));
+
+    vector::push_back(&mut attributes_keys,  utf8(b"Copper Weight (Grms)"));
+    vector::push_back(&mut attributes_values, utf8(b"0.5"));
+
+    vector::push_back(&mut attributes_keys,  utf8(b"Silver Weight (Grms)"));
+    vector::push_back(&mut attributes_values, utf8(b"0.25"));
+
+    vector::push_back(&mut attributes_keys,  utf8(b"Gold Weight (Grms)"));
+    vector::push_back(&mut attributes_values, utf8(b"1"));
+
+    vector::push_back(&mut attributes_keys,  utf8(b"Cultural Keeper"));
+    vector::push_back(&mut attributes_values, utf8(b"Jro Mangku I Wayan Sudiarta"));
+
+    vector::push_back(&mut attributes_keys,  utf8(b"Location"));
+    vector::push_back(&mut attributes_values, utf8(b"Klungkung, Bali, Indonesia"));
 
     // If signature is valid, mint a new PBT.
     let pbt = PhysicalArtifactToken {
