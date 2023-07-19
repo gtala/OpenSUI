@@ -150,11 +150,11 @@ module opensui::pbt {
 
     // Build the attributes_keys vector.
     let attributes_keys = vector::empty<String>();
-    //vector::push_back(&mut attributes_keys, b"Test");
+    vector::push_back(&mut attributes_keys,  utf8(b"Silver Weight (Grms)"));
 
         // Build the attributes_keys vector.
     let attributes_values = vector::empty<String>();
-    //vector::push_back(&mut attributes_values, b"values");
+    vector::push_back(&mut attributes_values, utf8(b"Silver Weight (Grms)"));
 
     // If signature is valid, mint a new PBT.
     let pbt = PhysicalArtifactToken {

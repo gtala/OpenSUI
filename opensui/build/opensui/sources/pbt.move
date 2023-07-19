@@ -37,10 +37,12 @@ module opensui::pbt {
     chip_pk: vector<u8>, // chip public key.
     name: String, // name of the artifact.
     description: String, // description of the artifact.
-    image_url: String, // image url of the artifact.
-    video_url: String, // video url of the artifact.
+    url: String, // image url of the artifact.
+    animation_url: String, // video url of the artifact.
     external_url: String, // external url of the artifact.
-    attributes: vector<PhysicalArtifactTokenAttribute>, // attributes of the artifact.
+    attributes_keys: vector<String>, // attributes_keys of the artifact.
+    attributes_values: vector<String>, // attributes values of the artifact.
+
   }
 
   struct PhysicalArtifactTokenAttribute has store {
@@ -71,10 +73,11 @@ module opensui::pbt {
       utf8(b"chip_pk"),
       utf8(b"name"),
       utf8(b"description"),
-      utf8(b"image_url"),
-      utf8(b"video_url"),
+      utf8(b"url"),
+      utf8(b"animation_url"),
       utf8(b"external_url"),
-      utf8(b"attributes"),
+      utf8(b"attributes_keys"),
+      utf8(b"attributes_values"),
     ];
 
     // TODO: Replace with actual default values.
@@ -82,10 +85,12 @@ module opensui::pbt {
       utf8(b"{chip_pk}"),
       utf8(b"{name}"),
       utf8(b"{description}"),
-      utf8(b"{image_url}"),
-      utf8(b"{video_url}"),
+      utf8(b"{url}"),
+      utf8(b"{animation_url}"),
       utf8(b"{external_url}"),
-      utf8(b"{attributes}"),
+      utf8(b"{attributes_keys}"),
+      utf8(b"{attributes_values}"),
+
     ];
 
     let display = display::new_with_fields<PhysicalArtifactToken>(
@@ -143,13 +148,13 @@ module opensui::pbt {
     let address_bytes = address::to_bytes(sender(ctx));
     assert!(qsig::verify_signature(chip_sig, chip_pk, drand_sig, address_bytes), EInvalidSignature);
 
-    // Build the attributes vector.
-    let attributes = vector::empty<PhysicalArtifactTokenAttribute>();
+    // Build the attributes_keys vector.
+    let attributes_keys = vector::empty<String>();
+    vector::push_back(&mut attributes_keys,  utf8(b"Silver Weight (Grms)"));
 
-    vector::push_back(&mut attributes, PhysicalArtifactTokenAttribute {
-      trait_type: utf8(b"Test"),
-      value: utf8(b"100"),
-    });
+        // Build the attributes_keys vector.
+    let attributes_values = vector::empty<String>();
+    vector::push_back(&mut attributes_values, utf8(b"Silver Weight (Grms)"));
 
     // If signature is valid, mint a new PBT.
     let pbt = PhysicalArtifactToken {
@@ -157,10 +162,11 @@ module opensui::pbt {
       chip_pk,
      name: utf8(b"OpenSui"),
       description: utf8(b"Open Sui PBT Implementation and Metadata Renderer"),
-      image_url: utf8(b"ipfs://QmRyNLcqjyUikS13P5GSJgFJkhoSaXH4u4j6EXAJFsXNEt/bell.jpg"),
-      video_url: utf8(b"https://ipfs.io/ipfs/QmYh2c8nHShD46zk5RPVA71oHwxRUC8x9HWkZZ4pyZEMQR/Bell_4K_LOOP_Clockwise%20%281%29.mp4"),
-      external_url: utf8(b"https://opensui.xyz/"),
-      attributes
+      url: utf8(b"ipfs://QmRyNLcqjyUikS13P5GSJgFJkhoSaXH4u4j6EXAJFsXNEt/bell.jpg"),
+      animation_url: utf8(b"https://ipfs.io/ipfs/QmYh2c8nHShD46zk5RPVA71oHwxRUC8x9HWkZZ4pyZEMQR/Bell_4K_LOOP_Clockwise%20%281%29.mp4"),
+      external_url: utf8(b""),
+      attributes_keys,
+      attributes_values
     };
 
     // Update current artifact status to MINTED (1) in the archive.
@@ -279,10 +285,11 @@ module opensui::pbt {
       chip_pk,
       name: utf8(b"OpenSui"),
       description: utf8(b"Open Sui PBT Implementation and Metadata Renderer"),
-      image_url: utf8(b"ipfs://QmRyNLcqjyUikS13P5GSJgFJkhoSaXH4u4j6EXAJFsXNEt/bell.jpg"),
-      video_url: utf8(b"https://ipfs.io/ipfs/QmYh2c8nHShD46zk5RPVA71oHwxRUC8x9HWkZZ4pyZEMQR/Bell_4K_LOOP_Clockwise%20%281%29.mp4"),
+      url: utf8(b"ipfs://QmRyNLcqjyUikS13P5GSJgFJkhoSaXH4u4j6EXAJFsXNEt/bell.jpg"),
+      animation_url: utf8(b"https://ipfs.io/ipfs/QmYh2c8nHShD46zk5RPVA71oHwxRUC8x9HWkZZ4pyZEMQR/Bell_4K_LOOP_Clockwise%20%281%29.mp4"),
       external_url: utf8(b"https://opensui.xyz/"),
-      attributes: vector::empty<PhysicalArtifactTokenAttribute>()
+      attributes_keys: vector::empty<String>(),
+      attributes_values: vector::empty<String>()
     };
 
     transfer::transfer(pbt, receiver);
